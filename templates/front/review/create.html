@@ -1,0 +1,33 @@
+{% extends 'front/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="product-tab-area section-space-top-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="product-review-body">
+                    <div class="feedback-area">
+                        <h2 class="heading">Review</h2>
+                        <form method="post" class="feedback-form"">
+                            {% csrf_token %}
+                            <div class="form-field mt-30">
+                                <input type="number" name="mark" placeholder="Mark" class="input-field" max="5" min="0">
+                            </div>
+                            <div class="form-field mt-30">
+                                <textarea name="text" placeholder="Message" class="textarea-field"></textarea>
+                            </div>
+                            <div class="button-wrap pt-5">
+                                <button type="submit" value="{{product}}" class="btn btn-custom-size xl-size btn-pronia-primary" name="submit">
+                                    Yozish
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    

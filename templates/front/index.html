@@ -1,0 +1,246 @@
+{% extends 'front/base.html' %}
+{% load static %}
+
+{% block content %}
+
+        <!-- Begin Shipping Area -->
+        <div class="shipping-area section-space-top-100">
+            <div class="container">
+                <div class="shipping-bg">
+                    <div class="row shipping-wrap">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="shipping-item">
+                                <div class="shipping-img">
+                                    <img src="{% static 'front/images/shipping/icon/car.png' %}" alt="Shipping Icon">
+                                </div>
+                                <div class="shipping-content">
+                                    <h2 class="title">Yetkazib berish xizmati</h2>
+                                    <p class="short-desc mb-0">Bizda xar bir mahsulotni yetkazib berish xizmati mavjud</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mt-4 mt-md-0">
+                            <div class="shipping-item">
+                                <div class="shipping-img">
+                                    <img src="{% static 'front/images/shipping/icon/card.png' %}" alt="Shipping Icon">
+                                </div>
+                                <div class="shipping-content">
+                                    <h2 class="title">Online o'tkazmakar</h2>
+                                    <p class="short-desc mb-0">Harid qilingan mahsulotlar uchun online to'lov qilish imkoniyati</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
+                            <div class="shipping-item">
+                                <div class="shipping-img">
+                                    <img src="{% static 'front/images/shipping/icon/service.png' %}" alt="Shipping Icon">
+                                </div>
+                                <div class="shipping-content">
+                                    <h2 class="title">Sizning fikringiz</h2>
+                                    <p class="short-desc mb-0">Mahsulotlar uchun o'z fikirlaringizni qoldirishingiz mumkun</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Shipping Area End Here -->
+
+        <!-- Begin Product Area -->
+        <div class="product-area section-space-top-100">
+            <div class="container">
+                <div class="section-title-wrap">
+                    <h2 class="section-title mb-0">Bizning mahsulotlar</h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="nav product-tab-nav tab-style-1" id="myTab" role="tablist">
+                            {% for category in categories %}
+                            <li class="nav-item" role="presentation">
+                                <a href="{% url 'front:product_list' category.code %}">
+                                    {{category.name}}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="featured" role="tabpanel" aria-labelledby="featured-tab">
+                                <div class="product-item-wrap row">
+                                    {% for product in products %}
+                                    <div class="col-xl-3 col-md-4 col-sm-6">
+                                        <div class="product-item">
+                                            <div class="product-img">
+                                                <a href="{% url 'front:product_detail' product.code %}">
+                                                    <img class="primary-img" src="{{product.banner_img.url}}" alt="Product Images" >
+                                                </a>
+                                                {% if user.is_authenticated %}
+                                                <div class="product-add-action">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="{% url 'front:add_wishlist' product.code %}" data-tippy="Add to wishlist" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
+                                                                {% if product.is_like %}
+                                                                <i class="fa fa-heart" style="color: red;"></i>
+                                                                {% else %}
+                                                                <i class="fa fa-heart-o"></i>
+                                                                {% endif %}
+                                                            </a>
+                                                        </li>
+                                                        <li class="quuickview-btn">
+                                                            <a href="{% url 'front:product_detail' product.code %}">
+                                                                <i class="pe-7s-look"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="quuickview-btn">
+                                                            <a href="{% url 'front:add_to_cart' product.code %}">
+                                                                <i class="pe-7s-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>                                                  
+                                                {% endif %}
+                                            </div>
+                                            <div class="product-content">
+                                                <a class="product-name" href="{% url 'front:product_detail' product.code %}">{{ product.name }}</a>
+                                                <div class="price-box pb-1">
+                                                    <span class="new-price">{{ product.price }} sum</span>
+                                                </div>
+                                                <div class="rating-box">
+                                                    <ul>
+                                                        {% for i in rating %}
+                                                        {% if i <= mark %}
+                                                        <li><i class="fa fa-star"></i></li>                                      
+                                                        {% else %}
+                                                        <li><i class="fa fa-star-o"></i></li>                                      
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Area End Here -->
+
+        <!-- Begin Product Area -->
+        <div class="product-area section-space-top-100">
+            <div class="container">
+                <div class="row">
+                    <div class="section-title-wrap without-tab">
+                        <h2 class="section-title">Eng so'ngi mahsulotlar mahsulotlar</h2>
+                        <p class="section-desc">
+                            Siz bizning magazinda eng so'ngi va eng sifatli mahsulotlani harid qilishingiz mumkun
+                        </p>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="swiper-container product-slider">
+                            <div class="swiper-wrapper">
+                                {% for product in new_products %}
+                                <div class="swiper-slide product-item">
+                                    <div class="product-img">
+                                        <a href="{% url 'front:product_detail' product.code %}">
+                                            <img class="primary-img" src="{{product.banner_img.url}}" alt="Product Images" >
+                                        </a>
+                                        {% if user.is_authenticated %}
+                                        <div class="product-add-action">
+                                            <ul>
+                                                <li>
+                                                    <a href="{% url 'front:add_wishlist' product.code %}" data-tippy="Add to wishlist" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
+                                                        {% if product.is_like %}
+                                                        <i class="fa fa-heart" style="color: red;"></i>
+                                                        {% else %}
+                                                        <i class="fa fa-heart-o"></i>
+                                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                                <li class="quuickview-btn">
+                                                    <a href="{% url 'front:product_detail' product.code %}">
+                                                        <i class="pe-7s-look"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="quuickview-btn">
+                                                    <a href="{% url 'front:add_to_cart' product.code %}">
+                                                        <i class="pe-7s-cart"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>                                                  
+                                        {% endif %}
+                                    </div>
+                                    <div class="product-content">
+                                        <a class="product-name" href="{% url 'front:product_detail' product.code %}">{{ product.name }}</a>
+                                        <div class="price-box pb-1">
+                                            <span class="new-price">{{ product.price }} sum</span>
+                                        </div>
+                                        <div class="rating-box">
+                                            <ul>
+                                                {% for i in rating %}
+                                                {% if i <= mark %}
+                                                <li><i class="fa fa-star"></i></li>                                      
+                                                {% else %}
+                                                <li><i class="fa fa-star-o"></i></li>                                      
+                                                {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                                  
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Area End Here -->
+
+        <!-- Begin Testimonial Area -->
+        <div class="testimonial-area section-space-top-90 section-space-bottom-95">
+            <div class="container-fluid">
+                <div class="testimonial-bg" data-bg-image="{% static 'front/images/testimonial/bg/1-1-1820x443.jpg' %}">
+                    <div class="section-title-wrap">
+                        <h2 class="section-title">Mijozlarning fikrlari</h2>
+                        <p class="section-desc mb-0">
+                            Harid qilingan mahsulotlarga o'z fikirlaringizni yozishni unutmang
+                        </p>
+                    </div>
+                </div>
+                <div class="container custom-space">
+                    <div class="swiper-container testimonial-slider with-bg">
+                        <div class="swiper-wrapper">
+                            {% for r in reviews %}
+                            <div class="swiper-slide testimonial-item">
+                                <div class="user-info mb-3">
+                                    <div class="user-shape-wrap">
+                                        <div class="user-img">
+                                            <img src="{{r.user.avatar.url}}" alt="User Image" height="50px">
+                                        </div>
+                                    </div>
+                                    <div class="user-content text-charcoal">
+                                        <h4 class="user-name mb-1">{{r.user.username}}</h4>
+                                        <span class="user-occupation">Mijoz</span>
+                                    </div>
+                                </div>
+                                <p class="user-comment mb-6">
+                                    {{r.text}}
+                                </p>
+                            </div>                              
+                            {% endfor %}
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination without-absolute"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonial Area End Here -->
+        {% endblock content %}
+
+        

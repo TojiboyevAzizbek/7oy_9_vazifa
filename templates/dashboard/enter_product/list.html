@@ -1,0 +1,85 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+
+<div class="main-content">
+    <div class="page-header">
+        <h2 class="header-title">Do`kon</h2>
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a href="#" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Dashboard</a>
+                <a class="breadcrumb-item" href="#">Mahsulot</a>
+                <span class="breadcrumb-item active">Ro`yxat</span>
+            </nav>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h4>Kirimlar ro`yxati</h4>
+            
+            <div class="m-t-25">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Kategoriya</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Harakatlar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{product.category.name}}</td>
+                                <td>{{product.name}}</td>
+                                <td>
+                                    <a href="{% url 'dashboard:detail_product_enter' product.code %}" class="btn btn-icon btn-hover btn-sm btn-rounded">
+                                        <i class="anticon anticon-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if products.paginator.num_pages > 1 %}
+                        <div class="pagination-area">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if products.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{products.previous_page_number }}">
+                                                &laquo;
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for num in products.paginator.page_range %}
+                                        {% if num == products.number %}
+                                            <li class="page-item active">
+                                            <strong> <a class="page-link" href="#" tabindex="-1">{{ num }}</a></strong>
+                                            </li>
+                                        {% elif num > products.number|add:'-2' and num < products.number|add:'2' %}
+                                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if products.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ products.next_page_number }}">
+                                                &raquo;
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

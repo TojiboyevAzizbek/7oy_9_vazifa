@@ -1,0 +1,239 @@
+{% extends 'front/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Begin Main Content Area -->
+<main class="main-content">
+    <div class="breadcrumb-area breadcrumb-height" data-bg-image="{% static 'front/images/breadcrumb/bg/1-1-1919x388.jpg' %}">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-item">
+                        <h2 class="breadcrumb-heading">Magazin</h2>
+                        <ul>
+                            <li>
+                                <a href="{% url 'front:index' %}">Bosh sahifa</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shop-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 order-2 order-lg-1 pt-5 pt-lg-0">
+                    <form>
+                        <div class="sidebar-area">
+                            <div class="widgets-area">
+                                <div class="widgets-item pt-0">
+                                    <input class="input-field" type="text" placeholder="Qidiruv" name="name">
+                                    </button>
+                                    <h2 class="widgets-title mb-4">Kategoriyalar</h2>
+                                    <ul class="widgets-category">
+                                        <li class="short">
+                                            <select class="nice-select" name="category_code">
+                                                <li>
+                                                    <option value="0">Barchasi</option>
+                                                </li>                                      
+                                                {% for category in categories %}
+                                                <li>
+                                                    <option value="{{category.code}}">{{category.name}}</option>
+                                                </li>                                      
+                                                {% endfor %}
+                                            </select>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="widgets-item widgets-filter">
+                                    <h2 class="widgets-title mb-4">Narx bo`yicha Filter</h2>
+                                    <div class="price-filter">
+                                        <input type="text" class="pronia-range-slider" name="price" value="" data-type="double" data-min="0" data-from="16000" data-to="300000" data-max="1000000" data-grid="false" />
+                                    </div>
+                                </div>
+                                <div class="widgets-item widgets-filter">
+                                    <h2 class="widgets-title mb-4">Reyting bo`yicha filterlash</h2>
+                                    <div class="price-filter">
+                                        <input type="text" class="pronia-range-slider" name="mark" value="" data-type="double" data-min="1" data-from="1" data-to="4" data-max="5" data-grid="false" />
+                                    </div>
+                                </div>
+                                <button class="btn btn-custom-size sm-size btn-pronia-primary" type="submit"> Filterlash</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-xl-9 col-lg-8 order-1 order-lg-2">
+                    <div class="product-topbar">
+                        <ul>
+                            <li class="page-count">
+                                <span>{{products|length}}</span> Topilgan mahsulotlar
+                            </li>
+                            <li class="product-view-wrap">
+                                <ul class="nav" role="tablist">
+                                    <li class="grid-view" role="presentation">
+                                        <a class="active" id="grid-view-tab" data-bs-toggle="tab" href="#grid-view" role="tab" aria-selected="true">
+                                            <i class="fa fa-th"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-view" role="presentation">
+                                        <a id="list-view-tab" data-bs-toggle="tab" href="#list-view" role="tab" aria-selected="true">
+                                            <i class="fa fa-th-list"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="short">
+                                <select class="nice-select">
+                                    <option value="1">Sort by Default</option>
+                                    <option value="2">Sort by Popularity</option>
+                                    <option value="3">Sort by Rated</option>
+                                    <option value="4">Sort by Latest</option>
+                                    <option value="5">Sort by High Price</option>
+                                    <option value="6">Sort by Low Price</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="grid-view" role="tabpanel" aria-labelledby="grid-view-tab">
+                            <div class="product-grid-view row g-y-20">
+                                {% for product in products %}
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="product-item">
+                                        <div class="product-img">
+                                            <a href="{% url 'front:product_list' product.code %}">
+                                                <img class="primary-img" src="{{product.banner_img.url}}" alt="Product Images">
+                                            </a>
+                                            <div class="product-add-action">
+                                                <ul>
+                                                    <li>
+                                                        <a href="{% url 'front:add_wishlist' product.code %}" data-tippy="Add to wishlist" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
+                                                            {% if product.is_like %}
+                                                            <i class="fa fa-heart" style="color: red;"></i>
+                                                            {% else %}
+                                                            <i class="fa fa-heart-o"></i>
+                                                            {% endif %}
+                                                        </a>
+                                                    </li>
+                                                    <li class="quuickview-btn" data-bs-toggle="modal" data-bs-target="#quickModal">
+                                                        <a href="{% url 'front:product_detail' product.code %}">
+                                                            <i class="pe-7s-look"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="quuickview-btn">
+                                                        <a href="{% url 'front:add_to_cart' product.code %}">
+                                                            <i class="pe-7s-cart"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <a class="product-name" href="{% url 'front:product_list' product.code %}">{{product.name}}</a>
+                                            <div class="price-box pb-1">
+                                                <span class="new-price">{{product.price}} sum</span>
+                                            </div>
+                                            <div class="rating-box">
+                                                <ul>
+                                                    {% for i in rating %}
+                                                    {% if i <= mark %}
+                                                    <li><i class="fa fa-star"></i></li>                                      
+                                                    {% else %}
+                                                    <li><i class="fa fa-star-o"></i></li>                                      
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                  
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="list-view" role="tabpanel" aria-labelledby="list-view-tab">
+                            <div class="product-list-view row g-y-30">
+                                {% for product in products %}
+                                <div class="col-12">
+                                    <div class="product-item">
+                                        <div class="product-img">
+                                            <a href="{% url 'front:product_detail' product.code %}">
+                                                <img class="primary-img" src="{{product.banner_img.url}}" alt="Product Images">
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <a class="product-name" href="{% url 'front:product_detail' product.code %}">{{product.name}}</a>
+                                            <div class="price-box pb-1">
+                                                <span class="new-price">{{product.price}}</span>
+                                            </div>
+                                            <p class="short-desc mb-0">{{product.body}}
+                                            </p>
+                                            <div class="product-add-action">
+                                                <ul>
+                                                    <li>
+                                                        <a href="{% url 'front:add_wishlist' product.code %}" data-tippy="Add to wishlist" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay="50" data-tippy-arrow="true" data-tippy-theme="sharpborder">
+                                                            {% if product.is_like %}
+                                                            <i class="fa fa-heart" style="color: red;"></i>
+                                                            {% else %}
+                                                            <i class="fa fa-heart-o"></i>
+                                                            {% endif %}
+                                                        </a>
+                                                    </li>
+                                                    <li class="quuickview-btn" data-bs-toggle="modal" data-bs-target="#quickModal">
+                                                        <a href="{% url 'front:product_detail' product.code %}">
+                                                            <i class="pe-7s-look"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li class="quuickview-btn">
+                                                        <a href="{% url 'front:add_to_cart' product.code %}">
+                                                            <i class="pe-7s-cart"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                  
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% if products.paginator.num_pages > 1 %}
+                    <div class="pagination-area">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                {% if products.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{products.previous_page_number }}">
+                                            &laquo;
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% for num in products.paginator.page_range %}
+                                    {% if num == products.number %}
+                                        <li class="page-item active">
+                                        <strong> <a class="page-link" href="#" tabindex="-1">{{ num }}</a></strong>
+                                        </li>
+                                    {% elif num > products.number|add:'-2' and num < products.number|add:'2' %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if products.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ products.next_page_number }}">
+                                            &raquo;
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Main Content Area End Here -->
+{% endblock content %}
+    
